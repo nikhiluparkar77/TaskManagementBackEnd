@@ -94,6 +94,62 @@ router.post("/SignIn", (req, res, next) => {
   });
 });
 
+// Edit User
+router.patch(
+  "/Edit/:userId",
+  passport.authenticate("jwt", { session: false }),
+  (req, res, next) => {
+    const id = req.params.userId;
+    User.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          name: req.body.name,
+          email: req.body.email,
+          joinDate: req.body.joinDate,
+          resignDate: req.body.resignDate,
+        },
+      }
+    )
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((err) => console.log(err));
+  }
+);
+
+// Get Single User
+// router.get(
+//   "/:userId",
+//   passport.authenticate("jwt", { session: false }),
+//   (req, res, next) => {
+//     const id = req.params.userId;
+//     User.findOne({ _id: id })
+//       .select("_id name email avatar password joinDate resignDate")
+//       .then((result) => {
+//         res.json(result);
+//       })
+//       .catch((err) => console.log(err));
+//   }
+// );
+
+// Delete User
+router.delete(
+  "/Delete/:userId",
+  passport.authenticate("jwt", { session: false }),
+  (req, res, next) => {
+    const id = req.params.userId;
+    User.findByIdAndDelete({ _id: id })
+      .then((result) => {
+        res.json({
+          message: "Delete Successfully",
+          result: result,
+        });
+      })
+      .catch((err) => console.log(err));
+  }
+);
+
 // UserList
 router.get(
   "/UserList",
