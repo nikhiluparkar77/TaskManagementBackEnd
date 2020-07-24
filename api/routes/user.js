@@ -119,19 +119,19 @@ router.patch(
 );
 
 // Get Single User
-// router.get(
-//   "/:userId",
-//   passport.authenticate("jwt", { session: false }),
-//   (req, res, next) => {
-//     const id = req.params.userId;
-//     User.findOne({ _id: id })
-//       .select("_id name email avatar password joinDate resignDate")
-//       .then((result) => {
-//         res.json(result);
-//       })
-//       .catch((err) => console.log(err));
-//   }
-// );
+router.get(
+  "/UserInfo/:userId",
+  passport.authenticate("jwt", { session: false }),
+  (req, res, next) => {
+    const id = req.params.userId;
+    User.findOne({ _id: id })
+      .select("_id name email avatar password joinDate resignDate")
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((err) => console.log(err));
+  }
+);
 
 // Delete User
 router.delete(

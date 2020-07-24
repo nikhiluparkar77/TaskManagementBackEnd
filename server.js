@@ -6,6 +6,7 @@ const passport = require("passport");
 
 const Admin = require("./api/routes/admin");
 const User = require("./api/routes/user");
+const Task = require("./api/routes/task");
 
 const app = express();
 
@@ -41,6 +42,7 @@ require("./api/config/passport")(passport);
 // Routes
 app.use("/api/admin", Admin);
 app.use("/api/user", User);
+app.use("/api/task", Task);
 
 app.use((req, res, next) => {
   const error = new Error("Not Found");
