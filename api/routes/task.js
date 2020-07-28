@@ -4,29 +4,53 @@ const gravatar = require("gravatar");
 const passport = require("passport");
 
 // import model
-const Task = require("../models/task");
+const TaskAssign = require("../models/task");
+const Admin = require("../models/admin");
 
 router.post(
-  "/TaskAssign",
+  "/taskAssign",
   passport.authenticate("jwt", { session: false }),
   (req, res, next) => {
-    const task = {};
-    task.adminId = req.admin.id;
-    task.userId = req.body.userId;
-    task.taskAssign = req.body.taskAssign;
-    task.StartTime = req.body.StartTime;
-    task.EndTime = req.body.EndTime;
-    task.Priority = req.body.Priority;
-    task.Status = req.body.Status;
+    const assignTask = new TaskAssign({
+      userId: req.body.userId,
+      taskAssign: req.body.taskAssign,
+      StartTime: req.body.StartTime,
+      EndTime: req.body.EndTime,
+      Priority: req.body.Priority,
+      Status: req.body.Status,
+    });
 
-    Task.findOne({ adminId: req.admin.id })
+    assignTask
+      .save()
+      .then((result) => res.json(result))
+      .catch((err) => console.log(err));
+  }
+);
+
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res, next) => {
+    TaskAssign.find()
+      .select("_id userId taskAssign StartTime EndTime Priority Status")
+      .populate("userId", "name")
       .then((result) => {
-        new Task(task)
-          .save()
-          .then((response) => res.json(response))
-          .catch((err) => console.log(err));
+        res.json(result);
       })
       .catch((err) => console.log(err));
+  }
+);
+
+router.delete(
+  "/:taskId",
+  passport.authenticate("jwt", { session: false }),
+  (req, res, next) => {
+    const id = req.params.taskId;
+    TaskAssign.findByIdAndDelete({ _id: id })
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((er) => console.log(err));
   }
 );
 

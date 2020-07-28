@@ -1,15 +1,10 @@
 const mongoose = require("mongoose");
 
 const TaskSchema = mongoose.Schema({
-  adminId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Admin",
-    required: "true",
-  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: "true",
+    required: true,
   },
   taskAssign: {
     type: String,
@@ -29,4 +24,4 @@ const TaskSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Task", TaskSchema);
+module.exports = mongoose.model("TaskAssign", TaskSchema);
