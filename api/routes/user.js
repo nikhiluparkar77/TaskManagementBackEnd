@@ -97,7 +97,7 @@ router.post( "/SignIn", ( req, res, next ) => {
 // Edit User
 router.patch(
   "/Edit/:userId",
-  passport.authenticate( "jwt", { session: false } ),
+  passport.authenticate( "Admin", { session: false } ),
   ( req, res, next ) => {
     const id = req.params.userId;
     User.findByIdAndUpdate(
@@ -121,7 +121,7 @@ router.patch(
 // Get Single User
 router.get(
   "/UserInfo/:userId",
-  passport.authenticate( "jwt", { session: false } ),
+  passport.authenticate( "Admin", { session: false } ),
   ( req, res, next ) => {
     const id = req.params.userId;
     User.findOne( { _id: id } )
@@ -136,7 +136,7 @@ router.get(
 // Delete User
 router.delete(
   "/Delete/:userId",
-  passport.authenticate( "jwt", { session: false } ),
+  passport.authenticate( "Admin", { session: false } ),
   ( req, res, next ) => {
     const id = req.params.userId;
     User.findByIdAndDelete( { _id: id } )

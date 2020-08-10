@@ -29,7 +29,7 @@ router.post(
 
 router.get(
   "/",
-  passport.authenticate( "jwt", { session: false } ),
+  passport.authenticate( "Admin", { session: false } ),
   ( req, res, next ) => {
     TaskAssign.find()
       .select( "_id userId taskAssign StartTime EndTime Priority Status" )
@@ -43,7 +43,7 @@ router.get(
 
 router.delete(
   "/:taskId",
-  passport.authenticate( "jwt", { session: false } ),
+  passport.authenticate( "Admin", { session: false } ),
   ( req, res, next ) => {
     const id = req.params.taskId;
     TaskAssign.findByIdAndDelete( { _id: id } )
