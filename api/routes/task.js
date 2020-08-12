@@ -41,6 +41,20 @@ router.get(
   }
 );
 
+router.get(
+  "/taskList",
+  passport.authenticate( "User", { session: false } ),
+  ( req, res, next ) => {
+    TaskAssign.find()
+      .select( "_id userId taskAssign StartTime EndTime Priority Status" )
+      .populate( "userId", "name" )
+      .then( ( result ) => {
+        res.json( result );
+      } )
+      .catch( ( err ) => console.log( err ) );
+  }
+);
+
 router.delete(
   "/:taskId",
   passport.authenticate( "Admin", { session: false } ),
