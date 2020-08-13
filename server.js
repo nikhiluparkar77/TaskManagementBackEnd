@@ -7,6 +7,7 @@ const passport = require( "passport" );
 const Admin = require( "./api/routes/admin" );
 const User = require( "./api/routes/user" );
 const Task = require( "./api/routes/task" );
+const CompleteTask = require( "./api/routes/completedTask" );
 
 const app = express();
 
@@ -43,6 +44,7 @@ require( "./api/config/passport" )( passport );
 app.use( "/api/admin", Admin );
 app.use( "/api/user", User );
 app.use( "/api/task", Task );
+app.use( "/api/complete/", CompleteTask );
 
 app.use( ( req, res, next ) => {
   const error = new Error( "Not Found" );
@@ -60,4 +62,4 @@ app.use( ( err, req, res, next ) => {
 } );
 
 const port = process.env.PORT || 5000;
-app.listen( port, () => console.log( `Server running port ${port}` ) );
+app.listen( port, () => console.log( `Server running port ${ port }` ) );
