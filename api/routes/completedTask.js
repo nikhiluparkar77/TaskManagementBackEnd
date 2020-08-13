@@ -70,6 +70,22 @@ router.get(
     }
 );
 
+router.get(
+    "/getTask/:Id",
+    // passport.authenticate( "User", { session: false } ),
+    ( req, res, next ) => {
+        const id = req.params.Id;
+        // CompleteTask.findOne( { userId: req.user.id } )
+        CompleteTask.findById( { _id: id } )
+            .select( "_id userId taskId Status StartTime EndTime Comment" )
+            .populate( "userId", "name" )
+            .then( ( result ) => {
+                res.json( result );
+            } )
+            .catch( ( err ) => console.log( err ) );
+    }
+);
+
 // Edit Complete Task
 router.patch( "/editTask/:Id", ( req, res, next ) => {
     const id = req.params.Id;
