@@ -1,11 +1,12 @@
-Admin Login 
-User Reginster / Sign SignUp
+Admin Login;
+Reginster / Sign SignUp;
 
-Admin Task
-Add User / Delete User 
+Admin Task;
+Add User / Delete User;
 
-Task
-Task Assign Add/Edit/Delete
+Admin Task;
+Task Add / Edit / Delete / Get Timeline;
 
-User Task
-Pending, Timeline, Complete
+User Task;
+Pending / Timeline / Complete / Done;
+
