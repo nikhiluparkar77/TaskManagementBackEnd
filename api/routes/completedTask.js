@@ -5,28 +5,9 @@ const router = express.Router();
 
 // Import model
 const CompleteTask = require( "../models/completedTask" );
+const User = require( "../models/user" );
 
 // ADD Complete Task
-// router.post(
-//     "/completeTask",
-//     passport.authenticate( "User", { session: false } ),
-//     ( req, res, next ) => {
-//         const completeTask = new CompleteTask( {
-//             userId: req.user.id,
-//             taskId: req.body.taskId,
-//             Status: req.body.Status,
-//             StartTime: req.body.StartTime,
-//             EndTime: req.body.EndTime,
-//             Comment: req.body.Comment,
-//         } );
-
-//         completeTask
-//             .save()
-//             .then( ( result ) => res.json( result ) )
-//             .catch( ( err ) => console.log( err ) );
-//     }
-// );
-
 
 router.post(
     "/Task",
@@ -38,6 +19,7 @@ router.post(
         completeTask.Status = req.body.Status;
         completeTask.StartTime = req.body.StartTime;
         completeTask.EndTime = req.body.EndTime;
+        completeTask.Status = req.body.Status;
         completeTask.Comment = req.body.Comment;
 
         CompleteTask.findOne( { userId: req.user.id } )
@@ -57,12 +39,12 @@ router.post(
 // Get Complete Task
 router.get(
     "/listTask",
-    // passport.authenticate( "User", { session: false } ),
+    passport.authenticate( "User", { session: false } ),
     ( req, res, next ) => {
-        // CompleteTask.findOne( { userId: req.user.id } )
-        CompleteTask.find()
+        CompleteTask.findOne( { userId: req.user.id } )
             .select( "_id userId taskId Status StartTime EndTime Comment" )
             .populate( "userId", "name" )
+            .populate( "taskId", "taskAssign" )
             .then( ( result ) => {
                 res.json( result );
             } )
@@ -72,7 +54,7 @@ router.get(
 
 router.get(
     "/getTask/:Id",
-    // passport.authenticate( "User", { session: false } ),
+    passport.authenticate( "User", { session: false } ),
     ( req, res, next ) => {
         const id = req.params.Id;
         // CompleteTask.findOne( { userId: req.user.id } )

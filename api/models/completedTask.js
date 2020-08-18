@@ -20,9 +20,11 @@ const CompletedTaskSchema = mongoose.Schema( {
     EndTime: {
         type: Date,
     },
+
     Comment: {
         type: String,
     },
+
 } );
 
 module.exports = mongoose.model( "CompleteTask", CompletedTaskSchema );

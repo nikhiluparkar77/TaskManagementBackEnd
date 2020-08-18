@@ -43,9 +43,9 @@ router.get(
 
 router.get(
   "/taskList",
-  // passport.authenticate( "User", { session: false } ),
+  passport.authenticate( "User", { session: false } ),
   ( req, res, next ) => {
-    TaskAssign.find()
+    TaskAssign.find( { userId: req.user.id } )
       .select( "_id userId taskAssign StartTime EndTime Priority Status" )
       .populate( "userId", "name" )
       .then( ( result ) => {
@@ -58,7 +58,7 @@ router.get(
 
 router.get(
   "/getTaskList/:Id",
-  // passport.authenticate( "User", { session: false } ),
+  passport.authenticate( "User", { session: false } ),
   ( req, res, next ) => {
     const id = req.params.Id;
     TaskAssign.findById( { _id: id } )
