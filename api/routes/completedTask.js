@@ -68,7 +68,7 @@ router.get(
 );
 
 router.get(
-    "/getTask/:Id",
+    "/getUserTask/:Id",
     passport.authenticate( "User", { session: false } ),
     ( req, res, next ) => {
         const id = req.params.Id;
@@ -76,6 +76,23 @@ router.get(
         CompleteTask.findById( { _id: id } )
             .select( "_id userId taskId Status StartTime EndTime Comment" )
             .populate( "userId", "name" )
+            .then( ( result ) => {
+                res.json( result );
+            } )
+            .catch( ( err ) => console.log( err ) );
+    }
+);
+
+router.get(
+    "/getAdminTask/:Id",
+    passport.authenticate( "Admin", { session: false } ),
+    ( req, res, next ) => {
+        const id = req.params.Id;
+        // CompleteTask.findOne( { userId: req.user.id } )
+        CompleteTask.findById( { _id: id } )
+            .select( "_id userId taskId Status StartTime EndTime Comment" )
+            .populate( "userId", "name" )
+            .populate( "taskId", "taskAssign" )
             .then( ( result ) => {
                 res.json( result );
             } )
@@ -112,7 +129,7 @@ router.patch( "/editTask/:Id", ( req, res, next ) => {
 // Delete Complete Task
 router.delete(
     "/deleteTask/:Id",
-    passport.authenticate( "User", { session: false } ),
+    passport.authenticate( "Admin", { session: false } ),
     ( req, res, next ) => {
         const id = req.params.Id;
         CompleteTask.findByIdAndDelete( { _id: id } )
