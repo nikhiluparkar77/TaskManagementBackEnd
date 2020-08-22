@@ -19,18 +19,15 @@ router.post(
         completeTask.Status = req.body.Status;
         completeTask.StartTime = req.body.StartTime;
         completeTask.EndTime = req.body.EndTime;
-        completeTask.Status = req.body.Status;
         completeTask.Comment = req.body.Comment;
 
         CompleteTask.findOne( { userId: req.user.id } )
             .then( ( result ) => {
-                if ( result ) {
-                    return res.status( 400 ).json( { message: "Profile Already avilable" } );
-                } else {
-                    return new CompleteTask( completeTask )
-                        .save()
-                        .then( ( response ) => res.json( response ) );
-                }
+
+                return new CompleteTask( completeTask )
+                    .save()
+                    .then( ( response ) => res.json( response ) );
+
             } )
             .catch( ( err ) => res.status( 500 ).json( err ) );
     }
