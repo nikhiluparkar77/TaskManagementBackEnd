@@ -53,6 +53,21 @@ router.get(
 );
 
 router.get(
+    "/AdminListTask",
+    passport.authenticate( "Admin", { session: false } ),
+    ( req, res, next ) => {
+        CompleteTask.find()
+            .select( "_id userId taskId Status StartTime EndTime Comment" )
+            .populate( "userId", "name" )
+            .populate( "taskId", "taskAssign" )
+            .then( ( result ) => {
+                res.json( result );
+            } )
+            .catch( ( err ) => console.log( err ) );
+    }
+);
+
+router.get(
     "/getTask/:Id",
     passport.authenticate( "User", { session: false } ),
     ( req, res, next ) => {
